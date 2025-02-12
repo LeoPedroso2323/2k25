@@ -1,11 +1,8 @@
-import Registro from "./Cadastro/Cadastro"; 
+import Cadastro from './Cadastro/Cadastro'
+import Login from './Login/Login'
 
 function App() {
-  return (
-    <div>
-      <Registro /> 
-    </div>
-  );
+  return <div><Cadastro/></div>;
 }
 
 export default App;

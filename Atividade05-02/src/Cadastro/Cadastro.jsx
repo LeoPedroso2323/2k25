@@ -3,17 +3,19 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
-import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { useState } from "react";
+import api from "../axios/axios";
 
-function Registro() {
+function Cadastro() {
   const [user, setUser] = useState({
+    cpf: "",
+    name: "",
+    data_nascimento: "",
     email: "",
     password: "",
-    age: "",
-    name: ""
   });
 
   const onChange = (event) => {
@@ -23,95 +25,119 @@ function Registro() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    alert(
-      ` Email: ${user.email} Senha: ${user.password} Idade: ${user.age}  Nome: ${user.name} `
-    );
+    Cadastro();
   };
 
+  async function Cadastro() {
+    await api.postCadastro(user).then(
+      (response) => {
+        alert(response.data.message);
+      },
+      (error) => {
+        console.log(error);
+        alert(error.response.data.error);
+      }
+    );
+  }
+
   return (
-    <Container component="main" maxWidth="xl" >
+    <Container component="main" maxWidth="xs">
       <Box
         sx={{
-          marginTop: 8,
+          mt: 8,
           display: "flex",
-          flexDirection: "column",
           alignItems: "center",
+          flexDirection: "column",
         }}
       >
-        <Avatar sx={{ margin: 1, backgroundcolor: "rgb(154, 154, 154)" }}>
-          <PersonAddIcon />
+        <Avatar
+          sx={{
+            margin: 1,
+            backgroundColor: "#978F8F",
+          }}
+        >
+          <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Cadastro
+          Cadastro - VIO
         </Typography>
         <Box
           component="form"
-          sx={{ margin: 1 }}
+          sx={{
+            mt: 1,
+          }}
           onSubmit={handleSubmit}
           noValidate
-          
         >
-         <TextField
-            required
-            fullWidth
-            id="email"
-            label="Email"
-            name="email"
-            margin="normal"
-            color = "rgb(154, 154, 154)"
-            value={user.email}
-            onChange={onChange}
-          />
-          
           <TextField
-            required
-            fullWidth
-            id="password"
-            label="Senha"
-            name="password"
-            margin="normal"
-            color = "rgb(154, 154, 154)"
-            type="password"
-            value={user.password}
-            onChange={onChange}
-          />
-
-            <TextField
-            required
-            fullWidth
-            id="age"
-            label="Idade"
-            name="age"
-            margin="normal"
-            color = "rgb(154, 154, 154)"
-            value={user.age}
-            onChange={onChange}
-          />
-
-           <TextField
             required
             fullWidth
             id="name"
             label="Nome"
             name="name"
             margin="normal"
-            color = "rgb(154, 154, 154)"
             value={user.name}
             onChange={onChange}
           />
-          <Button
-            sx={{ mt: 3, mb: 2, backgroundColor: "rgb(154, 154, 154)" }}
+          <TextField
+            required
             fullWidth
- e         type="submit"
+            id="email"
+            label="E-mail"
+            name="email"
+            margin="normal"
+            value={user.email}
+            onChange={onChange}
+          />
+          <TextField
+            required
+            fullWidth
+            id="cpf"
+            label="CPF"
+            name="cpf"
+            margin="normal"
+            value={user.cpf}
+            onChange={onChange}
+          />
+          <TextField
+            required
+            fullWidth
+            id="data_nascimento"
+            name="data_nascimento"
+            margin="normal"
+            type="date"
+            value={user.data_nascimento}
+            onChange={onChange}
+          />
+          <TextField
+            required
+            fullWidth
+            id="password"
+            label="Senha"
+            name="password"
+            type="password"
+            margin="normal"
+            value={user.password}
+            onChange={onChange}
+          />
+          <Button
+            sx={{
+              mt: 3,
+              mb: 2,
+              color: "white",
+              backgroundColor: "#978F8F",
+              display: "flex",
+            }}
+            fullWidth
+            type="submit"
             variant="contained"
           >
-            Cadastrar
+            Entrar
           </Button>
         </Box>
-        Desenvolvido por: Leonardo, Guilherme e Hyago
       </Box>
     </Container>
   );
 }
 
-export default Registro;
+export default Cadastro;
